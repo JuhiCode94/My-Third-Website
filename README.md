@@ -69,6 +69,14 @@ Below is the list of available URLs for the application:
 - **URL:** [http://127.0.0.1:8000/typing_test](http://127.0.0.1:8000/typing_test)
 - **Description:** This view handles the generation of typing tests based on the difficulty level and the test type selected. It provides an interactive typing test using a list of predefined words and phrases categorized by difficulty.
 
+### **About Page:**
+- **URL:** [http://127.0.0.1:8000/about](http://127.0.0.1:8000/about)
+- **Description:** This page provides information about the application, its features, and the team behind it.
+
+### **Contact Page:**
+- **URL:** [http://127.0.0.1:8000/contact](http://127.0.0.1:8000/contact)
+- **Description:** A page for users to get in touch with the team, including a contact form and additional contact details.
+
 ---
 
 ## Detailed Flow of the Typing Test
@@ -115,15 +123,15 @@ Access the admin panel at `http://127.0.0.1:8000/admin` with the following crede
 ### Project Structure
 
 ```plaintext
-image_uploader/
-├── image_uploader_app/
+JTypingTest/
+├── JTypingTestApp/
 │   ├── migrations/
 │   ├── static/
 │   │   └── img/
 │   ├── templates/
-│   │   ├── upload.html
-│   │   ├── gallery.html
-│   │   └── profile.html
+│   │   ├── about.html
+│   │   ├── base.html
+│   │   └── contact.html
 │   ├── admin.py
 │   ├── apps.py
 │   ├── models.py
