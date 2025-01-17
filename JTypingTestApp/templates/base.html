@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Character encoding for proper text rendering -->
+    <meta charset="utf-8">
+    <!-- Ensures responsive behavior on different devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon for browser tab -->
+    <link rel="icon" type="image/x-icon" href="{% static 'img/JTypingTestFavicon.ico' %}">
+    
+    <!-- Dynamic page title block -->
+    <title>{% block title %}J.TypingTest{% endblock %}</title>
+    
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Extra styles specific to child templates -->
+    {% block extra_styles %}
+    <style>
+      /* Styles for nested dropdowns */
+      .dropdown-submenu {
+        position: relative;
+      }
+
+      .dropdown-submenu .dropdown-menu {
+        top: 0;
+        right: 100%;  /* Align the submenu to the left of the parent */
+        margin-right: 0.1rem;
+        margin-top: -0.1rem;
+      }
+
+      /* Adjust dropdown menu width to fit the content */
+      .dropdown-menu {
+        min-width: 100%; /* Adjust to the size of the text */
+        width: auto; /* Allow for auto width based on content */
+      }
+
+      /* Navbar custom styling */
+      .navbar {
+        padding-top: 1rem;  /* Increase top padding */
+        padding-bottom: 1rem;  /* Increase bottom padding */
+        height: 60px; /* Set a specific height for the navbar */
+        border-bottom: 2px solid #5A2D83; /* Add a bottom border with a color of your choice */
+      }
+
+      /* Navbar links hover and active state styles */
+      .navbar-nav .nav-link {
+        transition: color 0.3s ease;
+        font-weight: 600; /* Make the text bolder */
+        font-size: 1.1rem; /* Increase font size */
+      }
+
+      .navbar-nav .nav-link:hover,
+      .navbar-nav .nav-link:active {
+        color: purple !important; /* Change text color on hover and click */
+      }
+
+      /* Change background color of dropdown items on hover and active state */
+      .dropdown-item:hover,
+      .dropdown-item:active {
+        background-color: purple !important;
+        color: white !important; /* Optional: Change text color to white when active */
+        font-weight: 600; /* Make the dropdown items bold */
+      }
+
+      /* Ensure the 'Typing' and 'English Typing' links are styled similarly */
+      .dropdown-submenu .dropdown-item:hover,
+      .dropdown-submenu .dropdown-item:active {
+        background-color: purple !important;
+        color: white !important;
+        font-weight: 600; /* Bold the nested dropdown items as well */
+      }
+
+       /* Footer styles */
+       footer p {
+        font-weight: 600; /* Bold the footer text */
+        font-size: 1.1rem; /* Increase font size for better visibility */
+        margin-bottom: 0; /* Remove bottom margin to make it tighter */
+      }
+
+      /* Increase padding for footer area */
+      footer {
+        padding-top: 1rem; /* Add top padding */
+        padding-bottom: 1rem; /* Add bottom padding */
+      }
+      
+      /* Styles for the JTypingTest logo */
+      .jtyping {
+        font-size: 2.5rem; /* Larger font size for 'JTyping' */
+        color: #5A2D83;   /* Darker purple color for 'JTyping' */
+        font-weight: bold;
+        letter-spacing: 3px; /* Add space between letters */
+        text-transform: uppercase; /* Make the text uppercase */
+        font-family: 'Arial', sans-serif; /* Custom font family */
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.3); /* Add a subtle shadow */
+      }
+
+      .test {
+        font-size: 1.5rem; /* Default smaller font size for 'Test' */
+        color: black;      /* Default color for 'Test' */
+      }
+
+      /* Alert message custom style */
+      .alert-error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+      }
+      
+      /* Responsive font sizes for smaller screens */
+      @media (max-width: 768px) {
+        .jtyping {
+          font-size: 2rem; /* Smaller font size for mobile */
+        }
+        
+        .test {
+          font-size: 1.2rem; /* Slightly smaller font for 'Test' on mobile */
+        }
+
+        .navbar-nav .nav-link {
+          font-size: 1rem; /* Adjust font size for navbar items */
+        }
+
+        footer p {
+          font-size: 1rem; /* Adjust footer font size */
+        }
+      }
+
+      @media (max-width: 576px) {
+        .navbar {
+          height: auto; /* Adjust navbar height on extra-small screens */
+        }
+    </style>
+    {% endblock %}
+  </head>
+  <body>
+    <!-- Navbar block (can be overridden by child templates) -->
+    {% block navbar %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <!-- Brand name/logo with custom styles -->
+        <a class="navbar-brand" href="#" onclick="return false;">
+           <span class="jtyping">J.Typing</span><span class="test">Test</span>
+        </a>
+
+        <!-- Toggler for collapsing navbar on small screens -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar menu links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Services
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item dropdown-toggle" href="#">Typing</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'english_typing' %}">English Typing</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% endblock %}
+
+    <!-- Alert Messages Section -->
+    <div class="container mt-3">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} {% if message.tags == 'error' %}alert-error{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Main content block -->
+    <div class="container-fluid p-0">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <!-- Footer section -->
+    <footer class="bg-light text-center py-3 mt-auto">
+      <p class="mb-0">© 2024 JTypingTest. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS for interactive components -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom script for enabling hover on dropdown submenu -->
+    <script>
+      // Enable hover for dropdown-submenu
+      document.querySelectorAll('.dropdown-submenu').forEach(function(element) {
+        element.addEventListener('mouseover', function(e) {
+          let submenu = element.querySelector('.dropdown-menu');
+          if (submenu) submenu.classList.add('show');
+        });
+
+        element.addEventListener('mouseout', function(e) {
+          let submenu = element.querySelector('.dropdown-menu');
+          if (submenu) submenu.classList.remove('show');
+        });
+      });
+    </script>
+  </body>
+</html>

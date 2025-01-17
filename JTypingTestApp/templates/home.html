@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - J.TypingTest{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center text-center py-5">
+    <!-- Main heading with typing animation -->
+    <h1 class="display-4 mb-4 text-primary typing-text">
+        English Typing Test
+    </h1>
+
+    <!-- Image displayed below the heading -->
+    <div class="img-container mb-4">
+        <img src="{% static 'img/home page-typing pic _1.jpg' %}" 
+             alt="Home Typing Test Image 1" 
+             class="img-fluid" 
+             style="max-height: 300px; border-radius: 10px;">
+    </div>
+    
+    <!-- Motivational text to encourage users -->
+    <p class="lead text-secondary mb-4" style="font-size: 1.7rem; max-width: 800px;">
+        "Unlock your full potential by mastering the art of typing. Start your journey today and transform your skills into a superpower!"
+    </p>
+    
+    <!-- Button to navigate to the English Typing Test page -->
+    <a href="{% url 'english_typing' %}" 
+       class="btn btn-primary btn-lg mb-5" style="font-size: 1.5rem; padding: 10px 20px;">
+       English Typing Test
+    </a>
+</div>
+
+<!-- Inline styling for the content -->
+<style>
+    /* Typing Animation keyframes */
+    @keyframes typing {
+        0% {
+            width: 0;
+        }
+        40% {
+            width: 100%;
+        }
+        40%, 60% {
+        width: 16ch; /* Adjust this value to match the text width */
+        }     
+        100% {
+            width: 0;
+        }
+    }
+
+    /* Applying typing effect to the main heading */
+    .typing-text {
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 2px solid currentColor;  /* Simulates typing cursor */
+        animation: typing 3s steps(25) 1s infinite;  /* Typing animation duration and steps */
+        display: inline-block;
+        line-height: 1.2; /* Maintain consistent vertical spacing */
+        padding-bottom: 6px; /* Prevent text cutting at the bottom */
+    }
+
+    /* Styling for the main heading text */
+    .display-4 {
+        font-family: 'Pacifico', cursive;
+        color: purple;  /* Consistent color across headings */
+    }
+
+    /* Styling for the motivational paragraph */
+    .lead {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.8; /* Improved readability with increased line height */
+    }
+
+    /* Primary button styling */
+    .btn-primary {
+        background-color: purple;
+        border-color: purple;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease; /* Smooth color transition on hover */
+    }
+
+    /* Button hover effect */
+    .btn-primary:hover {
+        background-color: #e6a8e1; 
+        border-color: #e6a8e1;
+        color: black;
+    }
+
+    /* Button focus and active states */
+    .btn-primary:focus, 
+    .btn-primary:active {
+        background-color: purple !important;
+        border-color: purple !important;
+        color: white !important;
+        outline: none; /* Remove default outline */
+    }
+
+    /* Button hover effect when in focus or active state */
+    .btn-primary:focus:hover, 
+    .btn-primary:active:hover {
+        background-color: #e6a8e1 !important; 
+        border-color: #e6a8e1 !important;
+        color: black !important;
+    }
+
+    /* Image container styling */
+    .img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock %}

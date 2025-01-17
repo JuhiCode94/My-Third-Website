@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome - J.TypingTest{% endblock %}
+
+<!-- Override the 'navbar' block to display a banner image -->
+{% block navbar %}
+<div style="background: url('{% static "img/welcome page-typing pic _1.jpg" %}') no-repeat center center; 
+            background-size: cover; 
+            height: 60px;">
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center text-center">
+    <!-- Main heading with the name of the typing test platform -->
+    <h1 class="display-4 mb-4">Welcome to <span class="jtyping">J.Typing</span><span class="test">Test</span></h1>
+    
+    <!-- Container for the second image -->
+    <div class="img-container">
+        <img src="{% static 'img/welcome page-typing pic _2.png' %}" 
+             alt="Welcome Typing Test Image 2" 
+             class="img-fluid mb-4" 
+             style="max-height: 300px; border-radius: 10px;">
+    </div>
+
+    <!-- Subheading with a typing effect and motivational quote -->
+    <p class="lead mb-4 typing-text" style="font-family: 'Pacifico', cursive; font-size: 2rem; margin-bottom: 20px;">
+        "Typing is not just a skill, it's a superpower! Master it, and conquer the world."
+    </p>
+    
+    <!-- Button to navigate to the home page and start the typing test -->
+    <a href="{% url 'home' %}" 
+       class="btn btn-primary btn-lg mb-5" 
+       style="font-size: 1.5rem; padding: 10px 20px;">
+       Start Your Typing Journey
+    </a>
+</div>
+
+<!-- Custom CSS for styling -->
+<style>
+    /* Keyframe animation for the typing effect */
+    @keyframes typing {
+        0% {
+            width: 0;
+        }
+        40% {
+            width: 100%;
+        }
+        40%, 60% {
+        width: 62ch; /* Adjust this value to match the text width */
+        }     
+        100% {
+            width: 0;
+        }
+    }
+
+    /* Styling for the typing text with cursor effect */
+    .typing-text {
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 3px solid purple;  /* Simulates the typing cursor */
+        animation: typing 10s steps(50) 1s infinite;  /* Infinite loop animation */
+        max-width: 100vw; /* Ensures it doesn't overflow the viewport */
+    }
+
+    /* Styling for the primary button */
+    .btn-primary {
+        background-color: purple;
+        border-color: purple;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Button hover effect */
+    .btn-primary:hover {
+        background-color: #e6a8e1; 
+        border-color: #e6a8e1;
+        color: black;
+    }
+
+     /* Button focus and active states */
+    .btn-primary:focus, 
+    .btn-primary:active {
+        background-color: purple !important;
+        border-color: purple !important;
+        color: white !important;
+        outline: none;
+    }
+
+    /* Button focus and active states when hovered */
+    .btn-primary:focus:hover, 
+    .btn-primary:active:hover {
+        background-color: #e6a8e1 !important; 
+        border-color: #e6a8e1 !important;
+        color: black !important;
+    }
+
+    /* Centering the content vertically and horizontally */
+    .d-flex {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Styling for the image container */
+    .img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    /* Responsive design for medium screens */
+    @media (max-width: 768px) {
+        .typing-text {
+            font-size: 1.5rem; /* Smaller font size for medium screens */
+            width: 90vw; /* Reduce width to prevent overflow */
+            white-space: normal; /* Allow text to wrap */
+        }
+
+        .btn-primary {
+            font-size: 1.2rem; /* Smaller button text */
+            padding: 8px 16px; /* Adjust button size */
+        }
+    }
+
+    /* Responsive design for small screens */
+    @media (max-width: 480px) {
+        .typing-text {
+            font-size: 1.2rem; /* Even smaller font size for small screens */
+            width: 85vw; /* Ensure it fits even on very small screens */
+        }
+
+        .btn-primary {
+            font-size: 1rem; /* Smaller button text */
+            padding: 6px 12px; /* Reduce button size */
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Result - J.TypingTest{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center">
+        <h1 class="display-4 mb-4 text-center fw-semibold typing-text">Typing Test Result</h1>
+        
+        <!-- Result Summary Section -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                <!-- Card displaying user performance -->
+                <div class="card shadow-lg border-0 rounded-lg p-5 bg-white">
+                    <div class="card-body">
+                        <h3 class="card-title text-center text-primary mb-4">Your Performance</h3>
+                        
+                        <!-- Performance Stats -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <p class="mb-1 text-muted"><strong>Words Typed:</strong></p>
+                                <p class="lead text-dark font-weight-bold">{{ request.GET.words_typed }}</p>
+                            </div>
+
+                            <!-- Correct Words Stat -->
+                            <div class="col-md-6 mb-4">
+                                <p class="mb-1 text-muted"><strong>Correct:</strong></p>
+                                <p class="lead text-success font-weight-bold">{{ request.GET.correct_words }}</p>
+                            </div>
+
+                            <!-- Incorrect Words Stat -->
+                            <div class="col-md-6 mb-4">
+                                <p class="mb-1 text-muted"><strong>Incorrect:</strong></p>
+                                <p class="lead text-danger font-weight-bold">{{ request.GET.incorrect_words }}</p>
+                            </div>
+
+                            <!-- Accuracy Percentage Stat -->
+                            <div class="col-md-6 mb-4">
+                                <p class="mb-1 text-muted"><strong>Accuracy:</strong></p>
+                                <p class="lead text-success font-weight-bold">{{ request.GET.accuracy }}%</p>
+                            </div>
+
+                            <!-- Speed in Words Per Minute (WPM) Stat -->
+                            <div class="col-md-6 mb-4">
+                                <p class="mb-1 text-muted"><strong>Speed (WPM):</strong></p>
+                                <p class="lead text-primary font-weight-bold">{{ request.GET.wpm }}</p>
+                            </div>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Section: Original Text vs. Your Text (Separated Section) -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-12"> <!-- Full-width container for comparison section -->
+                <!-- Card displaying original and user-typed text -->
+                <div class="card shadow-lg border-2 rounded-lg p-5 bg-light">
+                    <div class="card-body">
+                        <h4 class="text-center text-dark mb-4">Original Text vs. Your Text</h4>
+                        
+                        <!-- Flexbox Layout for Side-by-Side Comparison -->
+                        <div class="d-flex justify-content-between">
+                            <!-- Original Text Display -->
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted"><strong>Original:</strong></p>
+                                <div id="original-text" class="border rounded p-4 bg-white shadow-sm" style="font-size: 1.4rem;">{{ original_text|safe }}</div>
+                            </div>
+                            
+                            <!-- User-Typed Text Display -->
+                            <div class="col-md-6">
+                                <p class="mb-1 text-muted"><strong>Your Text:</strong></p>
+                                <div id="user-text" class="border rounded p-4 bg-white shadow-sm" style="font-size: 1.4rem;">{{ user_text|safe }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button to Retry the Typing Test -->
+        <div class="text-center mt-5 mb-4">
+            <a href="{% url 'english_typing' %}" class="btn btn-primary btn-lg" style="font-size: 1.5rem; padding: 10px 20px;">Try Again</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Styling Section -->
+<style>
+    /* General card styling */
+    .card {
+        background-color: #ffffff !important;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        padding: 3rem; /* Consistent padding */
+    }
+
+    /* Styling for text elements */
+    .card-title {
+        font-size: 3rem;
+        color: #007bff !important;
+        font-weight: 700;
+    }
+
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    .text-success {
+        color: #28a745;
+    }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    .text-dark {
+        color: #333333 !important;
+    }
+
+    .text-muted {
+        color: #6c757d;
+        font-size: 1.4rem; /* font size */
+    }
+
+    /* Button Styles for Consistent Look */
+    .btn-primary {
+        background-color: purple;
+        border-color: purple;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Hover effects for buttons */
+    .btn-primary:hover {
+        background-color: #e6a8e1; 
+        border-color: #e6a8e1;
+        color: black;
+    }
+
+    .btn-primary:focus, 
+    .btn-primary:active {
+        background-color: purple !important;
+        border-color: purple !important;
+        color: white !important;
+        outline: none;
+    }
+
+    .btn-primary:focus:hover, 
+    .btn-primary:active:hover {
+        background-color: #e6a8e1 !important; 
+        border-color: #e6a8e1 !important;
+        color: black !important;
+    }
+
+    /* Spacing utilities */
+    .mb-5 {
+        margin-bottom: 3rem;
+    }
+
+    .mb-4 {
+        margin-bottom: 3rem;
+    }
+
+    .mt-5 {
+        margin-top: 3rem;
+    }
+
+    /* Utility classes */
+    .rounded {
+        border-radius: 0.25rem;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .border {
+        border: 1px solid #ddd;
+    }
+
+    .p-4 {
+        padding: 1.5rem;
+    }
+
+    /* Flexbox for layouts */
+    .d-flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem; /* Add spacing between columns */
+    }
+
+    .col-md-5 {
+        width: 45%;
+    }
+
+    /* Typography */
+    .lead {
+        font-size: 1.4rem; /* Increase font size for better readability */
+        font-weight: 700;
+    }
+
+    h4 {
+        font-size: 3rem; /* Slightly increase heading font size */
+        color: #333;
+        font-weight: 700;
+    }
+
+    .incorrect-word {
+        color: red;
+        font-weight: bold;
+    }
+
+    /* Responsive adjustments for small screens */
+    @media (max-width: 768px) {
+        .p-4 {
+            padding: 1rem;
+        }
+
+        .mb-4, .mt-5 {
+            margin: 1.5rem 0;
+        }
+
+        .btn-primary {
+            font-size: 1rem;
+            padding: 8px 16px;
+        }
+
+        .card-title, h4 {
+            font-size: 1.5rem;
+        }
+
+        .lead, .text-muted {
+            font-size: 0.9rem;
+        }
+
+        .d-flex {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .col-md-6 {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

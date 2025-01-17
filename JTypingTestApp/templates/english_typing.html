@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}English Typing - J.TypingTest{% endblock %}
+
+{% block content %}
+<style>
+    /* Animation for the typing effect in the heading */
+    @keyframes typing {
+        0% {
+            width: 0;
+        }
+        40% {
+            width: 100%;
+        }
+        40%, 60% {
+            width: 16ch; /* Adjust width to match text length */
+        }     
+        100% {
+            width: 0;
+        }
+    }
+
+    /* Styling for the typing text animation */
+    .typing-text {
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 2px solid currentColor;  /* Match the line color to the text */
+        animation: typing 3s steps(25) 1s infinite;  /* Adjusted animation duration */
+        display: inline-block;
+        line-height: 1.2; /* Ensure enough vertical space */
+        padding-bottom: 6px; /* Add padding to prevent cutting */
+    }
+
+    /* Heading font and color settings */
+    .display-4 {
+        font-family: 'Pacifico', cursive;
+        color: purple;  /* Ensure consistent text color */
+    }
+
+    /* Styling for paragraph text */
+    .lead {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.8;
+    }
+
+    /* Primary button styles */
+    .btn-primary {
+        background-color: purple;
+        border-color: purple;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Primary button hover effect */
+    .btn-primary:hover {
+        background-color: #e6a8e1; 
+        border-color: #e6a8e1;
+        color: black;
+    }
+
+    /* Focus and active styles for primary button */
+    .btn-primary:focus, 
+    .btn-primary:active {
+        background-color: purple !important;
+        border-color: purple !important;
+        color: white !important;
+        outline: none;
+    }
+
+    .btn-primary:focus:hover, 
+    .btn-primary:active:hover {
+        background-color: #e6a8e1 !important; 
+        border-color: #e6a8e1 !important;
+        color: black !important;
+    }
+
+    /* Outline button styles */
+    .btn-outline-primary {
+        border-color: purple;
+        color: purple;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Hover effect for outline buttons */
+    .btn-outline-primary:hover {
+        background-color: purple;
+        color: white;
+    }
+
+    /* Active and focus styles for outline buttons */
+    .btn-outline-primary.active, .btn-outline-primary:focus {
+        background-color: purple;
+        color: white;
+        border-color: purple;
+    }
+
+    .btn-outline-primary.active:hover {
+        background-color: #e6a8e1;
+        border-color: #e6a8e1;
+        color: black;
+    }
+
+    /* Center content inside the container */
+    .img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Adjust the scroll position to leave space for a fixed header or padding */
+    #words-section,
+    #paragraph-section {
+        scroll-margin-top: 100px; /* Adjust this value to match layout */
+    }
+
+    /* Highlight active difficulty buttons */
+    .btn-outline-primary.active {
+        background-color: #e6a8e1; /* Same as hover color */
+        color: black;
+    }
+
+    /* Hide buttons when not relevant */
+    .hidden {
+        display: none;
+    }
+
+    /* Media query for small screens to add spacing */
+    @media (max-width: 576px) {
+        .btn-outline-primary {
+            margin-bottom: 10px;  /* Add space between the buttons */
+        }
+    }
+</style>
+
+<!-- Main container for heading and sections -->
+<div class="d-flex flex-column justify-content-center align-items-center text-center py-5">
+    <!-- Heading with Typing Animation -->
+    <h1 class="display-4 mb-4 text-primary typing-text">
+        English Typing Test
+    </h1>
+
+    <!-- Words Section -->
+    <div id="words-section" class="mb-5">
+        <h2 class="text-secondary mb-4">Words</h2>
+        <!-- Difficulty level buttons for words section -->
+        <div>
+            <a href="{% url 'english_typing' 'words' 'easy' %}#words-section" 
+               class="btn btn-outline-primary mx-3 py-3 px-4 {% if section == 'words' and difficulty == 'easy' %}active{% endif %}" 
+               style="font-size: 1.25rem;">Easy</a>
+            <a href="{% url 'english_typing' 'words' 'moderate' %}#words-section" 
+               class="btn btn-outline-primary mx-3 py-3 px-4 {% if section == 'words' and difficulty == 'moderate' %}active{% endif %}" 
+               style="font-size: 1.25rem;">Moderate</a>
+            <a href="{% url 'english_typing' 'words' 'difficult' %}#words-section" 
+               class="btn btn-outline-primary mx-3 py-3 px-4 {% if section == 'words' and difficulty == 'difficult' %}active{% endif %}" 
+               style="font-size: 1.25rem;">Difficult</a>
+        </div>
+    
+        <!-- Display test buttons if section is words -->
+        {% if section == 'words' %}
+        <div class="mt-4" id="test-buttons">
+            {% for label, url in buttons.items %}
+            <a href="{{ url }}#words-section" class="btn btn-primary mx-3 my-2 py-3 px-3" style="font-size: 1.22rem;">
+                {{ label }}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>   
+
+    <!-- Paragraph Section -->
+    <div id="paragraph-section">
+        <h2 class="text-secondary mb-4">Paragraph</h2>
+        <!-- Difficulty level buttons for paragraph section -->
+        <div>
+            <a href="{% url 'english_typing' 'paragraph' 'easy' %}#paragraph-section" 
+               class="btn btn-outline-primary mx-3 py-3 px-4 {% if section == 'paragraph' and difficulty == 'easy' %}active{% endif %}" 
+               style="font-size: 1.25rem;">Easy</a>
+            <a href="{% url 'english_typing' 'paragraph' 'moderate' %}#paragraph-section" 
+               class="btn btn-outline-primary mx-3 py-3 px-4 {% if section == 'paragraph' and difficulty == 'moderate' %}active{% endif %}" 
+               style="font-size: 1.25rem;">Moderate</a>
+            <a href="{% url 'english_typing' 'paragraph' 'difficult' %}#paragraph-section" 
+               class="btn btn-outline-primary mx-3 py-3 px-4 {% if section == 'paragraph' and difficulty == 'difficult' %}active{% endif %}" 
+               style="font-size: 1.25rem;">Difficult</a>              
+        </div>
+    
+        <!-- Display test buttons if section is paragraph -->
+        {% if section == 'paragraph' %}
+        <div class="mt-4" id="test-buttons">
+            {% for label, url in buttons.items %}
+            <a href="{{ url }}#paragraph-section" class="btn btn-primary mx-3 my-2 py-3 px-3" style="font-size: 1.22rem;">
+                {{ label }}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Hide the test buttons when clicking outside or navigating away
+    document.addEventListener('click', function(event) {
+        const testButtons = document.getElementById('test-buttons');
+        const difficultyButtons = document.querySelectorAll('.btn-outline-primary');
+        
+        if (!testButtons.contains(event.target) && !event.target.closest('.btn-outline-primary')) {
+            testButtons.classList.add('hidden');
+            // Remove the active class from all buttons
+            difficultyButtons.forEach(button => button.classList.remove('active'));
+        }
+    });
+
+    // Show the test buttons when a difficulty section is clicked
+    document.querySelectorAll('.btn-outline-primary').forEach(button => {
+        button.addEventListener('click', function() {
+            const testButtons = document.getElementById('test-buttons');
+            testButtons.classList.remove('hidden');
+            
+            // Add active class to the clicked button and remove from others
+            document.querySelectorAll('.btn-outline-primary').forEach(button => button.classList.remove('active'));
+            button.classList.add('active');
+        });
+    });
+</script>
+
+
+{% endblock %}
+

@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About - J.TypingTest{% endblock %}
+
+{% block content %}
+<!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <!-- Main Heading -->
+            <h1>About J.TypingTest</h1>
+            <p class="intro">Welcome to J.TypingTest, a platform dedicated to helping you improve your typing speed and accuracy. Whether you're a beginner or looking to refine your skills, our interactive tests provide an engaging way to practice and track your progress.</p>
+
+            <!-- About Content Grid -->
+            <div class="about-content">
+
+                <!-- Mission Section -->
+                <div class="mission">
+                    <h2>Our Mission</h2>
+                    <p>Our goal is to make typing practice fun and accessible for everyone. We provide a variety of typing tests that cater to different skill levels and allow users to challenge themselves with real-time feedback and progress tracking.</p>
+                </div>
+
+                <!-- How It Works Section -->
+                <div class="how-it-works">
+                    <h2>How It Works</h2>
+                    <ul>
+                        <li><strong>Choose a Test:</strong> Pick from a range of typing tests that suit your goals.</li>
+                        <li><strong>Practice and Improve:</strong> Type through the test, track your speed, and work on areas where you can improve.</li>
+                        <li><strong>Track Progress:</strong> Our dashboard gives you insights into your performance, including words per minute and accuracy rates.</li>
+                    </ul>
+                </div>
+
+                <!-- Why Us Section -->
+                <div class="why-us">
+                    <h2>Why J.TypingTest?</h2>
+                    <p>Our platform is designed to be simple, yet powerful, with features such as:</p>
+                    <ul>
+                        <li>Customizable test settings to suit your practice needs</li>
+                        <li>Real-time performance analytics to help you track your improvement</li>
+                        <li>Fun challenges to keep you motivated</li>
+                    </ul>
+                </div>
+
+                <!-- Creator Section -->
+                <div class="creator-section">
+                    <h2>Meet the Creator</h2>
+                    <p>J.TypingTest was created by <strong>Juhi</strong>, a passionate developer who wanted to make typing practice accessible and enjoyable for everyone.</p>
+
+                    <!-- Creator Profile -->
+                    <div class="creator">
+                        <img src="path/to/juhi-photo.jpg" alt="Juhi - Creator of J.TypingTest">
+                        <h3>Juhi</h3>
+                        <p>Creator & Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inline CSS Styles for About Page -->
+    <style>
+        .about-section {
+            background-color: #f7f7f7;
+            padding: 50px 20px;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Main Heading Styles */
+        h1 {
+            font-size: 50px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .intro {
+            font-size: 20px;
+            text-align: center;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        /* About Content Grid Layout */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .about-content h2 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .about-content p, .about-content ul {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .about-content ul {
+            padding-left: 20px;
+        }
+
+        .about-content li {
+            margin-bottom: 10px;
+        }
+
+        .about-content li strong {
+            color: #007bff;
+        }
+
+        /* Creator Section Styles */
+        .creator-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .creator img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .creator h3 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .creator p {
+            font-size: 22px;
+            color: #777;
+        }
+
+        .creator-section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .creator img {
+                width: 120px;
+                height: 120px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .intro {
+                font-size: 18px;
+            }
+
+            .about-content h2 {
+                font-size: 28px;
+            }
+
+            .about-content p, .about-content ul {
+                font-size: 16px;
+            }
+        }
+    </style>
+
+{% endblock %}

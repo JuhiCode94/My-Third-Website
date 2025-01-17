@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Typing Test - J.TypingTest{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Main Heading -->
+    <h1 class="display-4 mb-4 text-center fw-semibold typing-text">Typing Test</h1>
+
+    <!-- Timer Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <!-- Label for Easy Words -->
+        <h3 class="text-secondary mb-0" style="font-size: 2rem;">Easy Words</h3>
+    
+        <!-- Timer Dropdown and Display -->
+        <div class="d-flex align-items-center">
+            <label for="timer-select" class="form-label me-3" style="font-size: 1.8rem;">Select Time:</label>
+            <!-- Timer Dropdown for selecting duration -->
+            <select id="timer-select" class="form-select w-auto" 
+                    style="min-width: 150px; padding: 10px; border: 2px solid #888888; 
+                        background-color: #ffffff; font-size: 1.2rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                {% for minute in minute_range %}
+                    <option value="{{ minute }}">{{ minute }} minute(s)</option>
+                {% endfor %}
+            </select>
+            <!-- Countdown Timer Display -->
+            <div id="countdown" class="ms-4 text-danger fs-5"></div>
+        </div>
+    </div>
+
+    <!-- Word List Section -->
+    <div class="mb-4">
+        <div id="word-list" class="scrollable-box" style="font-size: 2rem; line-height: 1.4; 
+            max-height: 200px; overflow-y: auto; border: 2px solid #007bff; padding: 10px; font-weight: bold">
+            <!-- Loop through words and display them -->
+            {% for word in word_list %}
+                <span>{{ word }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Statistics Display -->
+    <div class="mb-4 text-center">
+        <p id="stats" style="font-size: 1.5rem;">
+            Words Typed: 0 | Correct: 0 | Incorrect: 0
+        </p>
+    </div>
+
+    <!-- Typing Area -->
+    <div class="mb-4">
+        <textarea id="typing-area" class="form-control" rows="5" 
+                  style="font-size: 2rem; line-height: 1.4; height: 200px; padding: 10px; 
+                         border: 2px solid #007bff; background-color: #f9f9f9; 
+                         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-weight: bold;"
+                  placeholder="Start typing here..."></textarea>
+    </div>
+
+    <!-- Start New Test Button -->
+    <div class="mt-4 text-center">
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Submit button to start a new test -->
+            <button type="submit" class="btn btn-primary" style="font-size: 1.5rem; padding: 10px 20px;">Start New Test</button>
+        </form>
+    </div>
+</div>
+
+<!-- Inline CSS for Button and Responsive Adjustments -->
+<style>
+    /* Button Styling */
+    .btn-primary {
+        background-color: purple;
+        border-color: purple;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #e6a8e1; 
+        border-color: #e6a8e1;
+        color: black;
+    }
+
+    /* Focused and Active Button States */
+    .btn-primary:focus, 
+    .btn-primary:active {
+        background-color: purple !important;
+        border-color: purple !important;
+        color: white !important;
+        outline: none;
+    }
+
+    .btn-primary:focus:hover, 
+    .btn-primary:active:hover {
+        background-color: #e6a8e1 !important; 
+        border-color: #e6a8e1 !important;
+        color: black !important;
+    }
+
+    /* Responsive Design for Smaller Screens */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        .text-secondary {
+            font-size: 1.2rem;
+        }
+
+        #word-list {
+            font-size: 1.2rem;
+            max-height: 150px;
+        }
+
+        #typing-area {
+            font-size: 1.4rem;
+        }
+
+        #stats {
+            font-size: 1.2rem;
+        }
+
+        .form-label {
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            font-size: 1rem;
+            padding: 8px 16px;
+        }
+
+        /* Stack layout vertically */
+        .d-flex {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<!-- JavaScript for Typing Test Functionality -->
+<script>
+    // Track whether the timer has started
+    let isTimerStarted = false;
+    let timer;
+    const wordListElement = document.getElementById('word-list');
+    const typingArea = document.getElementById('typing-area');
+    const statsElement = document.getElementById('stats');
+    const countdownElement = document.getElementById('countdown');
+    const timerSelect = document.getElementById('timer-select');
+    const originalWordArray = [...document.querySelectorAll('#word-list span')].map(span => span.textContent); // Store original words for shuffling
+
+    // Event listener to start the timer and handle typing
+    typingArea.addEventListener('input', () => {
+        const typedText = typingArea.value.trim();
+        const wordElements = wordListElement.innerText.trim().split(' ');
+        const typedWords = typedText.split(' ');
+
+        // Start the timer when typing begins
+        if (!isTimerStarted) {
+            let time = parseInt(timerSelect.value) * 60; // Convert minutes to seconds
+            timer = setInterval(() => {
+                if (time <= 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = "Time's up!";
+                    typingArea.disabled = true;
+
+                    // Redirect to the result page when time is up
+                    redirectToResultPage();
+                } else {
+                    const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+                    const seconds = (time % 60).toString().padStart(2, '0');
+                    countdownElement.textContent = `Time left: ${minutes}:${seconds}`;
+                    time--;
+                }
+            }, 1000);
+            isTimerStarted = true; // Set timer as started
+        }
+
+        // Update stats for correct and incorrect words
+        let correct = 0;
+        let incorrect = 0;
+        typedWords.forEach((word, index) => {
+            if (word === wordElements[index]) {
+                correct++;
+            } else {
+                incorrect++;
+            }
+        });
+
+        statsElement.textContent = `Words Typed: ${typedWords.length} | Correct: ${correct} | Incorrect: ${incorrect}`;
+
+        // Highlight correct and incorrect words
+        wordListElement.innerHTML = ''; 
+
+        wordElements.forEach((word, index) => {
+            const span = document.createElement('span');
+            span.textContent = word;
+
+            if (typedWords[index] !== undefined) {
+                if (typedWords[index] === word) {
+                    span.style.color = 'green'; // Correct word (text color green)
+                } else {
+                    span.style.color = 'red'; // Incorrect word (text color red)
+                }
+            }
+
+            wordListElement.appendChild(span);
+            wordListElement.appendChild(document.createTextNode(' ')); // Add space after each word
+        });
+
+        // Automatically scroll to the currently focused word
+        const currentWordSpan = wordListElement.childNodes[typedWords.length * 2]; // Adjust for spaces
+        if (currentWordSpan) {
+            currentWordSpan.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Detect if the user starts typing the last few words and append new shuffled words
+        const remainingWords = wordElements.slice(typedWords.length);
+        if (remainingWords.length <= 5) { // Threshold: adjust based on your preference
+            const newWords = shuffleArray(originalWordArray); // Shuffle new words
+            wordListElement.innerText += ' ' + newWords.join(' '); // Append new words
+        }
+    });
+
+    // Function to shuffle array elements
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+        return array;
+    }
+
+    // Function to redirect to the result page with test results
+    function redirectToResultPage() {
+        const typedText = typingArea.value.trim();
+        const wordElements = wordListElement.innerText.trim().split(' ');
+        const typedWords = typedText.split(' ');
+
+        // Calculate statistics
+        let correct = 0;
+        let incorrect = 0;
+        typedWords.forEach((word, index) => {
+            if (word === wordElements[index]) {
+                correct++;
+            } else {
+                incorrect++;
+            }
+        });
+
+        const wordsTyped = typedWords.length;
+        const accuracy = ((correct / wordsTyped) * 100).toFixed(2);
+        const wpm = (wordsTyped / (parseInt(timerSelect.value) * 60) * 60).toFixed(2);
+
+        // Redirect to the result page with results in URL query parameters
+        const resultUrl = `/result/?words_typed=${wordsTyped}&correct_words=${correct}&incorrect_words=${incorrect}&accuracy=${accuracy}&wpm=${wpm}&original_text=${encodeURIComponent(wordListElement.innerText)}&user_text=${encodeURIComponent(typedText)}`;
+        window.location.href = resultUrl;
+    }
+</script>
+{% endblock %}

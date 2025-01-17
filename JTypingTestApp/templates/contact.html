@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Set the page title for the Contact page -->
+{% block title %}Contact - J.TypingTest{% endblock %}
+
+{% block content %}
+    <section class="contact-section">
+        <div class="container">
+            <!-- Main heading of the contact page -->
+            <h1>Contact Us</h1>
+            <!-- Introductory text for users -->
+            <p class="intro">If you have any questions, feedback, or need assistance, feel free to reach out to us. We’d love to hear from you!</p>
+
+            <!-- Section to display contact details -->
+            <div class="contact-details">
+                <h2>Get in Touch</h2>
+                <p><strong>Email:</strong> <a href="mailto:support@jtypingtest.com">support@jtypingtest.com</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 234 567 890</a></p>
+                <p><strong>Address:</strong> 123 Typing Lane, Typing City, TX 12345</p>
+            </div>
+
+            <!-- Contact form for users to send messages -->
+            <div class="contact-form">
+                <h2>Send us a Message</h2>
+                <!-- Form to handle user inputs, with CSRF protection and POST method -->
+                <form method="POST" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    <!-- Form group for the user's name -->
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your name">
+                    </div>
+                    <!-- Form group for the user's email -->
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+                    <!-- Form group for the user's message -->
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" required placeholder="Write your message here"></textarea>
+                    </div>
+                    <!-- Submit button for the form -->
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Map section displaying the location of the business -->
+            <div class="map">
+                <h2>Find Us</h2>
+                <p>We are located at <strong>123 Typing Lane, Typing City, TX 12345</strong>. You can find us near the Typing Plaza, next to the Central Library.</p>
+                <!-- Static map image showing the location -->
+                <img src="{% static 'img/typing_city_map.jpg' %}" alt="Map to J.TypingTest Location" width="100%" height="400" style="border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+                <p>If you need step-by-step directions, click the button below to view us on your preferred map service.</p>
+                <!-- Link to open external map service -->
+                <a href="https://www.openstreetmap.org/" target="_blank" class="btn btn-primary">View on OpenStreetMap</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inline styles for the Contact page -->
+    <style>
+        .contact-section {
+            background-color: #f4f7fb;
+            padding: 60px 20px;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles for main heading */
+        h1 {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .intro {
+            font-size: 22px;
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        /* Section spacing */
+        .contact-details, .contact-form, .map {
+            margin-top: 40px;
+        }
+
+        /* Section heading styles */
+        .contact-details h2, .contact-form h2, .map h2 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Paragraph and link styles for contact details */
+        .contact-details p, .contact-form p {
+            font-size: 20px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .contact-details a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form group and input field styles */
+        .contact-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .contact-form label {
+            font-size: 18px;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Button styles with hover and active states */
+        .btn-primary {
+            background-color: purple;
+            border-color: purple;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            padding: 12px 24px;           
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: #e6a8e1;
+            border-color: #e6a8e1;
+            color: black;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:focus, 
+        .btn-primary:active {
+            background-color: purple !important;
+            border-color: purple !important;
+            color: white !important;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:focus:hover, 
+        .btn-primary:active:hover {
+            background-color: #e6a8e1 !important; 
+            border-color: #e6a8e1 !important;
+            color: black !important;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .map iframe {
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile responsiveness for smaller screens */
+        @media (max-width: 768px) {
+            .contact-details, .contact-form, .map {
+                margin-top: 30px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .intro {
+                font-size: 20px;
+            }
+
+            .contact-details p, .contact-form p {
+                font-size: 18px;
+            }
+
+            .contact-form .form-group {
+                margin-bottom: 16px;
+            }
+
+            .contact-form input, .contact-form textarea {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .contact-form button {
+                font-size: 18px;
+                padding: 12px 22px;
+            }
+
+            .map iframe {
+                height: 300px;
+            }
+        }
+    </style>
+{% endblock %}
