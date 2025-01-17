@@ -124,30 +124,31 @@ Access the admin panel at `http://127.0.0.1:8000/admin` with the following crede
 
 ```plaintext
 JTypingTest/
-├── JTypingTestApp/
-│   ├── migrations/
-│   ├── static/
-│   │   └── img/
-│   ├── templates/
-│   │   ├── about.html
-│   │   ├── base.html
-│   │   └── contact.html
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-├── Image_Uploader_Website/
+├── JTypingTest/
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
-├── media/
-│   ├── cover_pictures/
-│   ├── profile_pictures/
-│   └── timeline_pictures/
+├── JTypingTestApp/
+│   ├── migrations/
+│   │   └── img/
+│   ├── templates/
+│   │   ├── about.html
+│   │   ├── base.html
+│   │   └── contact.html
+│   │   ├── english_typing.html
+│   │   ├── home.html
+│   │   ├── result.html
+│   │   ├── typing_test.html
+│   │   ├── welcome.html
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── static/
+│   ├── img/
 ├── manage.py
 └── requirements.txt
 
